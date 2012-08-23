@@ -30,7 +30,7 @@ namespace UtahsOwnGardenChallenge.Mvc.Controllers
 
         public ActionResult MapInformation()
         {
-            var zipcodes = GardenRepository.All().Select(c => c.ZipCode).Where(z => z.Length > 4).ToList();
+            var zipcodes = GardenRepository.All().Select(c => c.ZipCode).Where(z => z.Length > 4 && z.StartsWith("84")).ToList();
             var distinctZipCodes = zipcodes.Distinct();
             var geocoder = new BingGeocoderClient("AlqLYGnwzgowzmozmv0Wy4TtXkoBLkAMAYKXu106gbu6O3MWj9jVpnHKVS20Obj-");
 
