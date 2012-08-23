@@ -1,0 +1,106 @@
+﻿<#@ template language="C#" HostSpecific="True" #>
+<#
+MvcTextTemplateHost mvcHost = (MvcTextTemplateHost)(Host);
+#>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using UtahsOwnGardenChallenge.Repositories;
+
+namespace <#= mvcHost.Namespace #>
+{
+    public class <#= mvcHost.ControllerName #> : Controller
+    {
+		protected IRepository Repositories { get; set; }
+
+    	public <#= mvcHost.ControllerName #>(IRepository repositories)
+    	{
+    		Repositories = repositories;
+    	}
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+<#
+if(mvcHost.AddActionMethods) {
+#>
+
+        public ActionResult Details(int id)
+        {
+            return View();
+        }
+
+
+        public ActionResult Create()
+        {
+            return View();
+        } 
+
+        [HttpPost]
+        public ActionResult Create(CreateViewModel model)
+        {
+            try
+            {
+               if (!ModelState.IsValid)
+					return View(model);
+
+                return RedirectToAction("Index");
+            }
+            catch(Exception ex)
+            {
+				ModelState.AddModelError("", ex.Message);
+				return View(model);
+            }
+        }
+        
+        public ActionResult Edit(int id)
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult Edit(int id, UpdateViewModel model)
+        {
+            try
+            {
+               if (!ModelState.IsValid)
+					return View(model);
+
+                return RedirectToAction("Index");
+            }
+            catch(Exception ex)
+            {
+				ModelState.AddModelError("", ex.Message);
+				return View(model);
+            }
+        }
+
+        public ActionResult Delete(int id)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int id, FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add delete logic here
+ 
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+<#
+}
+#>
+    }
+}

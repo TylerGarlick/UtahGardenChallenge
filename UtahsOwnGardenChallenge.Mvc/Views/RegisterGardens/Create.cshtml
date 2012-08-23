@@ -1,0 +1,177 @@
+﻿@model UtahsOwnGardenChallenge.Mvc.Models.RegisterGardens.RegisterGardenModel
+@{
+    ViewBag.Title = "Utah's Garden Challenge | Register your Garden";
+}
+@section javascript
+{
+    <script type="text/javascript">
+        $(function () {
+            $("#CountyId").change(function () {
+                var countyId = $(this).val();
+                var cityElement = $("#CityId");
+                if (countyId === '') {
+                    cityElement.children().remove();
+                    cityElement.html($("<option>").text("Select a City"));
+                    cityElement.attr("disabled", "disabled");
+                } else {
+                    cityElement.children().remove();
+                    cityElement.removeAttr("disabled");
+
+                    $.getJSON('/Cities/ByCounty/' + countyId, function (data) {
+                        $(data.Cities).each(function (key, value) {
+                            $("#CityId").append($("<option></option>").attr("value", value.Id).text(value.Name));
+                        });
+                    });
+                }
+            });
+           
+            $("#prizeButton").click(function () {
+                $('.modal').modal();
+            });
+        });
+    </script>
+}
+<h1>Register for Garden Challenge</h1>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(false)
+	
+    <div class="row">
+        <div class="span12">
+            <div class="row">
+                <div class="span3">
+                    @Html.LabelFor(m => m.FirstName)
+                    @Html.EditorFor(m => m.FirstName)
+                </div>
+                <div class="span3">
+                    @Html.LabelFor(m => m.LastName)
+                    @Html.EditorFor(m => m.LastName)
+                </div>
+            </div>
+            <div class="row">
+                <div class="span3">
+                    @Html.LabelFor(m => m.GroupName)
+                    @Html.EditorFor(m => m.GroupName)
+                </div>
+                <div class="span3">
+                    @Html.LabelFor(m => m.GardenName)
+                    @Html.EditorFor(m => m.GardenName)
+                </div>
+            </div>
+            <div class="row">
+                <div class="span6">
+                    @Html.LabelFor(m => m.EmailAddress)
+                    @Html.TextBoxFor(m => m.EmailAddress, new { @class = "span6" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="span6">
+                    @Html.LabelFor(m => m.Address)
+                    @Html.TextBoxFor(m => m.Address, new { @class = "span6" })
+                </div>
+            </div>
+            <div class="row">
+				<div class="span3">
+					@Html.LabelFor(m => m.City)
+					@Html.EditorFor(m => m.City)
+				</div>
+                <div class="span3">
+                    @Html.LabelFor(m => m.ZipCode)
+                    @Html.EditorFor(m => m.ZipCode)
+                </div>
+            </div>
+            <div class="row">
+                <div class="span6">
+					 @Html.LabelFor(m => m.County)
+                    @Html.EditorFor(m => m.County)
+                   
+                </div>
+            </div>
+            <div class="row">
+                <div class="span6">
+                    @Html.LabelFor(m => m.GardenSizeId)
+                    @Html.DropDownListFor(m => m.GardenSizeId, Model.GardenSizes, "Select a Garden Size")
+                </div>
+            </div>
+            <div class="row">
+                <div class="span6">
+                    @Html.LabelFor(m => m.GardenTypeId)
+                    @Html.DropDownListFor(m => m.GardenTypeId, Model.GardenTypes, "Select a Garden Type")
+                </div>
+            </div>
+            <div class="row">
+                <div class="span3">
+                    @Html.LabelFor(m => m.GardenReasons)
+                    @foreach (var gardentReason in Model.GardenReasons)
+                    {
+                        <input type="checkbox" name="SelectedGardenReasons" value="@gardentReason.Id" /> @gardentReason.Name <br />
+                    }
+                </div>
+                <div class="span3">
+                    @Html.LabelFor(m => m.PlantTypes)
+                    @foreach (var plantType in Model.PlantTypes)
+                    {	
+                        <input type="checkbox" name="SelectedPlantTypes" value="@plantType.Id" /> @plantType.Name <br />
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span11">
+            <div class="row opt-in">
+                <div class="span11">
+                    @Html.EditorFor(m => m.IsWillingToBeContactedByNas)
+                    <label>Are you willing to be contacted by National Agriculture Statistics service in the 5 year agriculture census? </label>
+
+                    <span rel="popover" class="label label-info" data-content="We need to know how much food is being produced in Utah. 
+														 The Census of Agriculture is done every 5 years. 
+														 Every agriculture operation in Utah, regardless of size is vital to answer this question. 
+														 If you produce $1000 of agriculture products, you can influence economic development and decision making by filling out a NASS survey. 
+														 We will only share your information with NASS by your permission. 
+														 Your response to the census of agriculture is protected by law.  
+														 For more information you can go to www.agcensus.gov"><i class="icon-info-sign icon-white"></i></span>
+                </div>
+            </div>
+            <div class="row opt-in">
+                <div class="span11">
+                    @Html.EditorFor(m => m.IsWillingToEmailed)
+                    <label>To be eligible to receive <a href="#" id="prizeButton" data-toggle="modal" href="#prizeModal">prizes</a>, you must opt in to receive emails from the Utah Garden Challenge.</label>
+                </div>
+            </div>
+
+            <div class="row opt-in">
+                <div class="span11">
+                    @Html.EditorFor(m => m.IsWillingToContactedByUtahsOwn) @Html.LabelFor(m => m.IsWillingToContactedByUtahsOwn)
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span11">
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Register</button>
+                @Html.ActionLink("Cancel", "Index", "Home", null, new { @class = "btn" })
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal hide" id="prizeModal">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h3>Garden Challenge Prizes</h3>
+        </div>
+		<div class="modal-body">
+			<p>All prizes are randomly selected from the registrations.</p>
+			<ul>
+				<li><a href="http://ifacountrystores.com/" target="_blank">IFA Country Store</a> Giftcard ($500 giftcard for every 1000 signups)</li>
+				<li>Dinner at <a href="http://www.canyonsresort.com/diningdetails.html?dinid=10666" target="_blank">The Farm</a> or <a href="http://www.parkcitywaldorfastoria.com/the-restaurant/index.cfm" target="_blank">Slopes</a> by Talisker in Park City ($100 giftcard for every 1000 signups)</li>
+			</ul>
+		</div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Close</a>
+        </div>
+    </div>
+}

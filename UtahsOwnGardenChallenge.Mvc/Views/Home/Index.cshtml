@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "Utah's Garden Challenge";
+}
+<div class="row">
+    <div class="span12">
+        <div id="carousel" class="carousel slide">
+            <div class="carousel-inner">
+                <div class="active item">
+                    <img src="@Url.Content("~/Content/Images/Carousel/first-garden.jpg")" alt="first-garden-first-photo" />
+                </div>
+                <div class="item">
+                    <img src="@Url.Content("~/Content/Images/Carousel/first-garden2.jpg")" alt="first-garden-second-photo" />
+                </div>
+            </div>
+            <a class="carousel-control left" href="#carousel" data-slide="prev">&lsaquo;</a> <a class="carousel-control right" href="#carousel" data-slide="next">&rsaquo;</a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="span8">
+        <h1>Welcome to Utah's Garden Challenge</h1>
+        <p class="home-body">How much food do we produce in Utah? Registering 10,000 gardens is an opportunity to find that answer as well as display our agricultural heritage. This challenge shows our state residents connection to the land. We impart self-sufficiency and take pride in our community. Whether you grow a tomato in a pot, a row in a community garden, have backyard gardens, a CSA or working fruit and vegetable farm, we want to hear from you because you are an important resource as a food producer. </p>
+        @Html.ActionLink("Register your Garden", "Create", "RegisterGardens", null, new { @class = "btn btn-danger" })
+    </div>
+    <div class="span4">
+        <a href="http://ag.utah.gov/" target="_blank">
+            <img src="@Url.Content("~/Content/Images/udaf-logo.png")" alt="Utah Department of Agriculture" /></a>
+    </div>
+</div>
+<div class="sponsors">
+    <div class="row logos">
+        <div class="span4">
+            <a href="http://ifa-coop.com/" target="_blank">
+                <img src="/Content/Images/IFA_CS_LOGO.png" alt="IFA" /></a>
+        </div>
+        <div class="span4">
+            <a href="http://utahsown.utah.gov/" target="_blank">
+                <img src="/Content/Images/utahs-own-green-logo.png" alt="Utah's Own" /></a>
+        </div>
+        <div class="span4">
+            <a href="http://www.taliskeronmain.com/" target="_blank">
+                <img src="/Content/Images/talisker-logo.png" alt="talisker-logo" /></a>
+
+
+        </div>
+    </div>
+    <div class="row logos">
+        <div class="span4">
+            <a href="http://www.nexbusiness.com" target="_blank">
+                <img src="/Content/Images/NexBusiness-Logo.png" alt="NexBusiness Solutions, LLC" /></a>
+        </div>
+        <div class="span4">
+            <a href="http://www.z104country.com/" target="_blank">
+                <img src="/Content/Images/OVAL_IN_10KGARDENS.png" alt="104 Country" /></a>
+        </div>
+        <div class="span4">
+            <a href="http://www.ediblewasatch.com/" target="_blank">
+                <img src="/Content/Images/EWa.LOGO.VERT.black.png" alt="Edible Wasatch" /></a>
+        </div>
+    </div>
+    <div class="row logos">
+        <div class="span4">
+            <a href="http://extension.usu.edu/" target="_blank">
+                <img src="/Content/Images/blue-horizontal.png" alt="USU Extensions" /></a>
+        </div>
+        <div class="span4">
+            <a href="http://www.utahstatefair.com/home" target="_blank">
+                <img src="/Content/Images/usf_logo.png" alt="Utah State Fair" /></a>
+        </div>
+    </div>
+
+</div>
